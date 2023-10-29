@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"llmjava.hf_text_embeddings"},{"l":"llmjava.hf_text_embeddings.client"},{"l":"llmjava.hf_text_embeddings.model"}]
