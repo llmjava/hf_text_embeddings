@@ -61,6 +61,65 @@ First, run a [Text Embeddings Inference](https://huggingface.co/inference-api) e
 
 See documentation to run an endpoint https://huggingface.co/docs/text-embeddings-inference
 
+Set `HF_API_URL` with the endpoint url of your choice:
+
+```java
+String HF_API_URL = "https://api-inference.huggingface.co";
+```
+
+Next, get an API token. If using HuggingFace public endpoint then you can get one at https://huggingface.co/settings/tokens
+
+Now, we create a client to interact with the endpoint and be able to send requests
+
+```java
+// create API client
+String HF_TOKEN = System.getenv("HF_API_KEY");
+
+ApiClient client = new ApiClient()
+.setRequestInterceptor(new Consumer<HttpRequest.Builder>() {
+    @Override public void accept(HttpRequest.Builder builder) {
+        builder.header("Authorization", "Bearer " + HF_TOKEN);
+    }
+});
+client.updateBaseUri(HF_API_URL);
+TextEmbeddingsInferenceApi api = new TextEmbeddingsInferenceApi(client);
+```
+
+The rest of this section provide examples for submit different types of requests
+
+### Text Embeddings request
+Submit Text Embeddings request
+
+```java
+// Embed request
+EmbedRequest embedRequest = new EmbedRequest().addInputsItem("Hi");
+
+List<List<Float>> response = api.embed(embedRequest);
+System.out.println("Generated embeddings" + response);
+```
+
+### Model info request
+Submit model info request
+
+```java
+Info modelInfoResponse = api.getModelInfo();
+System.out.println("Model info:\n" + modelInfoResponse);
+```
+
+### Health request
+Submit health request
+
+```java
+api.health();
+```
+
+### Metrics request
+Submit metrics request
+
+```java
+String metricsResponse = api.metrics();
+System.out.println("Metrics response:\n" + metricsResponse);
+```
 
 ## Build Project
 
